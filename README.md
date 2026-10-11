@@ -60,7 +60,21 @@ $ ./_build/default/bin/fracst.exe -v 2 -s implicit tests/implicit/nat.frac
 
 If everything is working correctly, you should see the typechecking time printed to the console.
 
-### Executing
+## Test Cases
+
+The following tests from the `tests` directory represent the examples from Table 1 of the paper, with the implicit (with program reconstruction) versions in the `implicit` subdirectory and the explicit (without program reconstruction) versions in the `explicit` subdirectory.
+
+- Stack: `stack.frac`
+- Queue: `queue.frac`
+- Binary Tree: `tree.frac`
+- Copyable Nats: `nat.frac`
+- Copyable Bins: `bin.frac`
+- Leader Election: `ring_leader.frac`
+- MapReduce: `mapreduce.frac`
+- Auction: `auction.frac`
+- AVL Tree: `avl_tree.frac`
+
+### Running A Test Case
 The make command creates an executable for FracST at `_build/default/bin/fracst.exe`.
 To typecheck a file with FracST, run
 ```
@@ -69,19 +83,26 @@ $ ./_build/default/bin/fracst.exe <file-path>
 
 By default the program reconstruction algorithm doesn't run. In order to tell FracST to use program reconstruction, pass the `-s implicit` flag. 
 
-A collection of examples is provided in the `tests` directory, both in `explicit` and `implicit` forms.
-
-For example, the following commands typecheck the natural number example without and with program reconstruction respectively:
+For example, the following commands typecheck the Stack example without and with program reconstruction respectively:
 ```
-$ ./_build/default/bin/fracst.exe ./tests/explicit/nat.frac
-$ ./_build/default/bin/fracst.exe -s implicit ./tests/implicit/nat.frac
+$ ./_build/default/bin/fracst.exe ./tests/explicit/stack.frac
+$ ./_build/default/bin/fracst.exe -s implicit ./tests/implicit/stack.frac
 ```
 
-The `-v` flag controls verbosity and defaults to `1`. If set to `2`, the typechecker will print the typechecking time, and a trace of failed typechecks.
+The `-v` flag controls verbosity and defaults to `1`. If set to `2`, the typechecker will print the typechecking (and reconstruction, if enabled) time, and a trace of failed typechecks.
 
-To see this, you can run the following command to typecheck a deliberately incorrect implementation of `nat`
+To see the failure trace, you can run the following command to typecheck a deliberately incorrect implementation of `nat`
 ```
 $ ./_build/default/bin/fracst.exe -s implicit ./tests/implicit/nat_wrong.frac
+```
+
+### Running All Test Cases
+
+We have provided a script to run all test cases at `times.sh`. To execute, simply run `./times.sh`. This will run each test case in both syntax modes 10 times and report the average time for typechecking and reconstruction time. The times for individual runs are placed in the `times` directory. We calculate the base typechecking time as the time for the explicit syntax and the program reconstruction time as the additional time taken for the implicit syntax.
+
+To count lines of code, we used the [cloc](https://github.com/AlDanial/cloc) utility. With that utility installed and added to PATH, our line counts can be reproduced with 
+```
+$ cloc --force-lang ocaml --by-file tests/*
 ```
 
 ## Writing FracST programs

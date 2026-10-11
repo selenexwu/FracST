@@ -25,7 +25,7 @@ $ cd FracST
 Now, we create a local opam switch to contain the necessary dependencies. This will also build FracST.
 ```
 $ opam update
-$ opam switch create . 5.5.1 -y
+$ opam switch create . 5.4.1 -y
 ```
 
 Afterwards, we can make sure `dune` is available at the command-line using

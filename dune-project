@@ -12,12 +12,16 @@
  (authors "Selene Wu" "Ankush Das")
  (maintainers "selenewu@nyu.edu")
  (depends
-  (core (>= v0.17.2))
-  (core_unix (>= v0.17.1))
-   dune
-  (menhir (>= 20260209))
-  (ocaml (>= 5.5.1))
-  (ppx_let (>= v0.17.1))
-  (zarith (>= 1.14))
- )
-)
+  (core
+   (>= v0.17.2))
+  (core_unix
+   (>= v0.17.1))
+  dune
+  (menhir
+   (>= 20260209))
+  (ocaml
+   (>= 5.4.1))
+  (ppx_let
+   (>= v0.17.1))
+  (zarith
+   (>= 1.14))))

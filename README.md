@@ -33,6 +33,22 @@ Afterwards, we can make sure `dune` is available at the command-line using
 $ eval $(opam env)
 ```
 
+### CLOC
+To calculate line counts for our test cases, we used the [cloc](https://github.com/AlDanial/cloc) utility. The testing script will print the number of lines of each test case if it is present.
+
+On MacOS, it can be installed via Homebrew with
+```
+$ brew install cloc
+```
+
+Cloc is also available in the package repositories of many common Linux distributions:
+``` 
+sudo apt install cloc    # Debian, Ubuntu
+sudo yum install cloc    # Red Hat, Fedora
+sudo dnf install cloc    # Fedora 22 or later
+sudo pacman -S cloc      # Arch
+```
+
 ### Building
 To rebuild, simply run the make command at the top-level.
 ```
@@ -89,24 +105,83 @@ $ ./_build/default/bin/fracst.exe ./tests/explicit/stack.frac
 $ ./_build/default/bin/fracst.exe -s implicit ./tests/implicit/stack.frac
 ```
 
-The `-v` flag controls verbosity and defaults to `1`. If set to `2`, the typechecker will print the typechecking (and reconstruction, if enabled) time, and a trace of failed typechecks.
-
-To see the failure trace, you can run the following command to typecheck a deliberately incorrect implementation of `nat`
+The expected output looks like this (exact times may vary by hardware):
 ```
-$ ./_build/default/bin/fracst.exe -s implicit ./tests/implicit/nat_wrong.frac
+$ ./_build/default/bin/fracst.exe ./tests/explicit/stack.frac
+Running fracst on explicit syntax: './tests/explicit/stack.frac'
+typechecking time: 0.035000s
+typechecking successful
+
+$ ./_build/default/bin/fracst.exe -s implicit ./tests/implicit/stack.frac
+Running fracst on implicit syntax: './tests/implicit/stack.frac'
+typechecking + reconstruction time: 0.050000s
+typechecking successful
 ```
 
 ### Running All Test Cases
 
-We have provided a script to run all test cases at `times.sh`. To execute, simply run `./times.sh`. This will run each test case in both syntax modes 10 times and report the average time for typechecking and reconstruction time. The times for individual runs are placed in the `times` directory. We calculate the base typechecking time as the time for the explicit syntax and the program reconstruction time as the additional time taken for the implicit syntax.
+We have provided a script to run all test cases at `time.sh`. To execute, simply run `./time.sh`. This will run each test case in both syntax modes 10 times and report the average time for typechecking and for reconstruction, as well as the line counts for both syntaxes. The times for individual runs are placed in the `times` directory. We calculate the typechecking time as the time for the explicit syntax and the program reconstruction time as the additional time taken for the implicit syntax.
 
-To count lines of code, we used the [cloc](https://github.com/AlDanial/cloc) utility. With that utility installed and added to PATH, our line counts can be reproduced with 
+The output should look like the following. Times may vary depending on hardware. This output is from a desktop computer with an AMD Ryzen 7 5800X CPU and 32 GB of RAM running Ubuntu 24.04.
 ```
-$ cloc --force-lang ocaml --by-file tests/*
+$ ./time.sh
+Running test 'stack'
+Average typechecking time: 0.0317
+Average reconstruction time: 0.0113
+Implicit lines: 67
+Explicit lines: 93
+
+Running test 'queue'
+Average typechecking time: 0.0315
+Average reconstruction time: 0.0097
+Implicit lines: 68
+Explicit lines: 97
+
+Running test 'tree'
+Average typechecking time: 0.0367
+Average reconstruction time: 0.0124
+Implicit lines: 77
+Explicit lines: 109
+
+Running test 'nat'
+Average typechecking time: 0.0291
+Average reconstruction time: 0.0098
+Implicit lines: 85
+Explicit lines: 119
+
+Running test 'bin'
+Average typechecking time: 0.0296
+Average reconstruction time: 0.0179
+Implicit lines: 90
+Explicit lines: 116
+
+Running test 'ring_leader'
+Average typechecking time: 0.0387
+Average reconstruction time: 0.0153
+Implicit lines: 120
+Explicit lines: 161
+
+Running test 'mapreduce'
+Average typechecking time: 0.0619
+Average reconstruction time: 0.0167
+Implicit lines: 136
+Explicit lines: 216
+
+Running test 'auction'
+Average typechecking time: 0.4682
+Average reconstruction time: 0.0823
+Implicit lines: 291
+Explicit lines: 384
+
+Running test 'avl_tree'
+Average typechecking time: 0.2803
+Average reconstruction time: 0.0378
+Implicit lines: 364
+Explicit lines: 500
 ```
 
 ## Writing FracST programs
-Writing session-typed programs needs some guidance. First, I will introduce the basic declarations. There are three forms of declarations:
+If you wish to write new FracST programs, the following documentation gives an overview of the syntax:
 
 #### Type Definitions
 New type names can be defined using the following syntax `type v = A` where type name `v` has definition `A`. As an example, the `queue` type is defined as follows:

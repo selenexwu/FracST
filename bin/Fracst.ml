@@ -32,7 +32,7 @@ let frac_command =
     C.Command.Let_syntax.(
       let%map_open verbosity =
         flag "-v"
-          (optional_with_default 0 int)
+          (optional_with_default 1 int)
           ~doc:"verbosity:- 0: quiet, 1: default, 2: verbose, 3: debugging mode"
       and syntax =
         flag "-s"
@@ -41,11 +41,12 @@ let frac_command =
       and file = anon ("filename" %: frac_file) in
       fun () ->
         try
-        let raw = TL.read file in
         F.verbosity := verbosity ;
         set_syntax syntax ;
+        (if !F.verbosity > 0 then print_endline ("Running fracst on " ^ syntax ^ " syntax: '" ^ file ^ "'") else ());
+        let raw = TL.read file in
         let () = TL.check raw in
-        ()
+        if !F.verbosity > 0 then print_endline "typechecking successful" else ()
         with
         | EM.LexError m -> print_endline m
         | EM.ParseError m -> print_endline m

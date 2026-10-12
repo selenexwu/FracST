@@ -1471,8 +1471,8 @@ let check_decls env dcls =
   let () = check_decls' env dcls in
   let end_time = Sys.time () in
   let () =
-    if !F.verbosity >= 2 then
-      Printf.printf "%f\n" ((end_time -. start_time) *. 1000.)
+    if !F.verbosity >= 1 then
+      Printf.printf (match !F.syntax with F.Explicit -> "typechecking time: %fs\n" | F.Implicit -> "typechecking + reconstruction time: %fs\n") ((end_time -. start_time) *. 1000.)
     else ()
   in
   ()

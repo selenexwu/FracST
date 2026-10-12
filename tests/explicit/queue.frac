@@ -84,8 +84,8 @@ proc main : . |- (out : queue) =
     send q e1;
     share q;
     q1, q2 <- split q;
-    start q1{0.5};
-    start q2{0.5};
+    start q1{1/2};
+    start q2{1/2};
     q1.len;
     q2.len;
     {n1i} <- recv q1;

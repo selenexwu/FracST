@@ -8,7 +8,7 @@ depends: [
   "core_unix" {>= "v0.17.1"}
   "dune" {>= "3.6"}
   "menhir" {>= "20260209"}
-  "ocaml" {>= "5.5.1"}
+  "ocaml" {>= "5.4.1"}
   "ppx_let" {>= "v0.17.1"}
   "zarith" {>= "1.14"}
   "odoc" {with-doc}

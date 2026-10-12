@@ -22,7 +22,7 @@ $ git clone https://github.com/selenexwu/FracST.git
 $ cd FracST
 ```
 
-Now, we create a local opam switch to contain the necessary dependencies. This will also build FracST.
+Now, we create a local opam switch to contain the necessary dependencies. This will also install the necessary dependencies and build FracST.
 ```
 $ opam update
 $ opam switch create . 5.5.1 -y
@@ -42,7 +42,7 @@ $ make
 ### Troubleshooting
 1. Sometimes, your `$ make` command may fail with the error "dune: command not found". In this case, try restarting your terminal and running `$ make` again. Or you may need to run `$ eval $(opam env)` in your terminal again unless this command is already in your `.bashrc`.
 
-2. Sometimes, the core library of ocaml is not correctly installed (generally, if you already have an old installation of core). In these cases, simply run `$ opam install core` and try running `$ make` again.
+2. If you get `Error: Library "core" not found` or similar, make sure you created the local switch with `opam switch create . 5.5.1 -y`, as this installs the necessary dependencies for FracST.
 
 3. Sometimes, `$ opam upgrade` can fail with the following error particularly on Linux machines.
 ```
